@@ -1,3 +1,4 @@
 *.json
 img/
 Test.py
+.vscode
