@@ -145,3 +145,51 @@ def transform_multiple_images_with_bboxes(tf, m_class_labels, m_bboxes):
                 else:
                     f.write(f'{transformed_bbox[-1]}')
 
+
+def transform_multiple_images_multiple_transforms_with_bboxes(tfs, m_class_labels, m_bboxes):
+    os.chdir('C:/Users/Omar Magdy/PycharmProjects/Augmentation_Exp/Images_Exp/')
+    images_files = os.listdir()
+
+    convert = lambda text: int(text) if text.isdigit() else text
+    alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+    images_files.sort(key=alphanum_key)
+
+    images = []
+    for image_file in images_files:
+        image = cv2.imread(image_file)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        images.append(image)
+    transformed_images = []
+    transformed_m_bboxes = []
+    transformed_m_class_labels = []
+    for tf in tfs:
+        for index, image in enumerate(images):
+            transformed = tf(image=image, class_labels=m_class_labels[index], bboxes=m_bboxes[index])
+            transformed_image = transformed["image"]
+            transformed_bboxes = transformed['bboxes']
+            transformed_class_labels = transformed['class_labels']
+            transformed_images.append(transformed_image)
+            transformed_m_bboxes.append(transformed_bboxes)
+            transformed_m_class_labels.append(transformed_class_labels)
+
+    images_size = len(images)
+    for index, transformed_image in enumerate(transformed_images):
+        transformed_image = cv2.cvtColor(transformed_image, cv2.COLOR_RGB2BGR)
+        cv2.imwrite(f"{images_files[index % images_size].split('.')[0]}_aug{floor(index/images_size) + 1}.jpg", transformed_image)
+
+    print(transformed_m_class_labels)
+    print(transformed_m_bboxes)
+
+    os.chdir('C:/Users/Omar Magdy/PycharmProjects/Augmentation_Exp/Annotations_Exp/')
+    for index in range(len(transformed_images)):
+        with open(f"{images_files[index % images_size].split('.')[0]}_aug{floor(index/images_size) + 1}.txt", 'a') as f:
+            for i in range(len(transformed_m_class_labels[index])):
+                f.write(f'{transformed_m_class_labels[index][i]} ')
+                transformed_bbox = transformed_m_bboxes[index][i]
+                for j in range(len(transformed_bbox) - 1):
+                    f.write(f'{transformed_bbox[j]} ')
+                if i != len(transformed_m_class_labels[index]) - 1:
+                    f.write(f'{transformed_bbox[-1]}\n')
+                else:
+                    f.write(f'{transformed_bbox[-1]}')
+

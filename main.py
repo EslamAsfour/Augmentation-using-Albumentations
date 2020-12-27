@@ -61,10 +61,11 @@ transform10 = a.Compose([
 transforms = [transform1, transform2, transform3, transform4, transform5, transform6, transform7, transform8,
               transform9, transform10]
 
+transforms2 = [transform1, transform2]
 
 # transform_single_image_with_bboxes(transform1, m_class_labels[0], m_bboxes[0])
 # transform_multiple_images_with_bboxes(transform1, m_class_labels, m_bboxes)
-
+transform_multiple_images_multiple_transforms_with_bboxes(transforms, m_class_labels, m_bboxes)
 
 # Trials #
 
