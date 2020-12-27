@@ -49,7 +49,7 @@ import json
 '''
  Function takes imgs Directory and Json file and return 
         Dict {
-                "img_Name" : TargetImg,
+                "img_Name" : Img_In_RGB,
                 "bbox": [],
                 "class_labels": []
                 }
@@ -61,11 +61,15 @@ def Get_Prep_Annotation(imgDir,JsonPath):
 
     f = open(JsonPath)
     Annotation_Json = json.load(f) 
+    Annotation_Output= []
+
     #Get img ID
-
-    Annotation_Output = []
-
     for TargetImg in images_file:
+        
+        #Read img
+        img_in_RGB =cv2.imread(imgDir+f"/{TargetImg}")
+        img_in_RGB = cv2.cvtColor(img_in_RGB,cv2.COLOR_BGR2RGB)
+
         Target_ID = None
         #Search JSON file for img Id 
         for img in Annotation_Json['images']:
@@ -75,7 +79,7 @@ def Get_Prep_Annotation(imgDir,JsonPath):
         # Search with Img_id to get every bbox of the img
      
         Img_Dic = {
-            "img_Name" : TargetImg,
+            "img_RGB" : img_in_RGB,
             "bbox": [],
             "class_labels": []
         }
@@ -85,7 +89,7 @@ def Get_Prep_Annotation(imgDir,JsonPath):
             if Annotation['image_id'] == Target_ID:
                 Img_Dic["bbox"].append(Annotation['bbox'])
                 Img_Dic["class_labels"].append(Annotation['category_id'])
-                
+                   
         Annotation_Output.append(Img_Dic)
         
     return Annotation_Output
