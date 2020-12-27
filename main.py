@@ -1,11 +1,14 @@
 from my_yolo_parse import *
 from my_transforms import *
+import albumentations as a
+
+m_class_labels, m_bboxes = parse_yolo_files()
 
 transform1 = a.Compose([
     a.RandomCrop(width=256, height=256),
     a.HorizontalFlip(p=1),
     a.RandomBrightnessContrast(p=1)
-])
+], bbox_params=a.BboxParams(format='yolo', label_fields=['class_labels']))
 
 transform2 = a.Compose([
     a.CLAHE(clip_limit=4.0, tile_grid_size=(8, 8), p=1),
@@ -45,8 +48,7 @@ transform8 = a.Compose([
 
 transform9 = a.Compose([
     a.Resize(width=352, height=352, interpolation=cv2.INTER_LINEAR, p=1),
-    a.CoarseDropout(max_holes=8, max_height=8, max_width=8, min_holes=None, min_height=None, min_width=None,
-                    fill_value=0, mask_fill_value=None, p=1),
+    a.RandomRotate90(p=1),
     a.GaussNoise(var_limit=(10.0, 50.0), mean=0, p=1)
 ])
 
@@ -60,14 +62,31 @@ transforms = [transform1, transform2, transform3, transform4, transform5, transf
               transform9, transform10]
 
 
-# parse_yolo_file()
-parse_yolo_files()
-# transform_single_image(transform1)
-# transform_multiple_images(transform1)
-# transform_multiple_images_multiple_transforms(transforms)
-# sort_images()
+# transform_single_image_with_bboxes(transform1, m_class_labels[0], m_bboxes[0])
+# transform_multiple_images_with_bboxes(transform1, m_class_labels, m_bboxes)
+
+
+# Trials #
 
 # for element in dir(a):
 #     print(help(element))
 
 # print(dir(a))
+
+# parse_yolo_file()
+
+# os.chdir('C:/Users/Omar Magdy/PycharmProjects/Augmentation_Exp/Images_Exp/')
+# image = cv2.imread('Images_Exp/1_aug.jpg')
+# image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+#
+# category_ids, bboxes = parse_yolo_file()
+# category_id_to_name = {8: 'qual_gate', 3: 'buoy_red', 4: 'buoy_yellow', 2: 'buoy_green'}
+#
+# visualize(image, bboxes, category_ids, category_id_to_name)
+
+# print(m_class_labels)
+# print(m_bboxes)
+# transform_single_image(transform1)
+# transform_multiple_images(transform1)
+# transform_multiple_images_multiple_transforms(transforms)
+# sort_images()
