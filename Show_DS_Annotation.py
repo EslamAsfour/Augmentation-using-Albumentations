@@ -4,8 +4,8 @@ import cv2
 
 
 ## Put ur Paths
-imgDir_Path = "E:/AUV/DataSet Creation/EfficientDet/train"
-Annotation_File = "E:/AUV/DataSet Creation/EfficientDet/annotations/instances_train.json"
+imgDir_Path = "E:\AUV\DataSet Creation\Augmentation\img"
+Annotation_File = "E:\AUV\DataSet Creation\Augmentation\output_2.json"
 #########################
 # Get Dict with {
 #       img_RGB , bbox , class_labels  

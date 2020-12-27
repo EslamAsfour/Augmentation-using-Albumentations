@@ -128,7 +128,7 @@ def Aug_IMGs(in_img_P,in_Annotation_P ,in_Label_2_ClassName,tf,out_Img_P,out_Ann
         ## Add Annotation to JSON
         ## Add img to images
         Out_Json['images'].append({
-            "file_name": out_Img_P+f"Aug_{img['img_Name']}",
+            "file_name": f"Aug_{img['img_Name']}",
             "height": output_Aug['image'].shape[0],
             "width": output_Aug['image'].shape[1],
             "id": Img_Id_Start
