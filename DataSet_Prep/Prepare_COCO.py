@@ -2,6 +2,8 @@ import albumentations as a
 import cv2
 import os
 import json
+from DataSet_Prep.util import *
+
 
 '''
 
@@ -99,7 +101,63 @@ def Get_Prep_Annotation(imgDir,JsonPath):
 
         
             
-                
+def Aug_IMGs(in_img_P,in_Annotation_P ,in_Label_2_ClassName,tf,out_Img_P,out_Annotation_p):
+    # Get Dict with {
+    #       img_RGB , bbox , class_labels  
+    #}
+    Imgs_Prepared_to_Trans = Get_Prep_Annotation(in_img_P,in_Annotation_P)
+    
+    f = open(in_Annotation_P)
+    Out_Json = json.load(f) 
+    # Get last Img_id to start counting from
+    Img_Id_Start = Out_Json['images'][-1]['id']
+    #Get Last Annotation id
+    Annotation_Id_Start =Out_Json['annotations'][-1]['id']
+
+    Label_2_ClassName = in_Label_2_ClassName
+
+    # loop over all the imgs Dict
+    for img in Imgs_Prepared_to_Trans:
+        Img_Id_Start+= 1
+        #Augmentation
+        output_Aug = (tf(image=img['img_RGB'], bboxes=img['bbox'], category_ids=img['class_labels']))
+        
+        ## Save Output img in RGB 
+        cv2.imwrite(out_Img_P+f"Aug_{img['img_Name']}" , cv2.cvtColor(output_Aug['image'],cv2.COLOR_RGB2BGR) )
+        
+        ## Add Annotation to JSON
+        ## Add img to images
+        Out_Json['images'].append({
+            "file_name": out_Img_P+f"Aug_{img['img_Name']}",
+            "height": output_Aug['image'].shape[0],
+            "width": output_Aug['image'].shape[1],
+            "id": Img_Id_Start
+        })
+        
+        ## Add Annotation to annotations
+        ## Note that we can have multiple Annotations in one img so we need to loop through all f the bboxs and append each one
+        for bbox , cat_it in zip(output_Aug['bboxes'],output_Aug['category_ids']):
+            Annotation_Id_Start += 1
+            Out_Json['annotations'].append({
+                "area": bbox[-1]*bbox[-2],
+                "iscrowd": 0,
+                "image_id": Img_Id_Start,
+                "bbox": bbox,
+                "category_id": 0,
+                "id": Annotation_Id_Start,
+                "ignore": 0,
+                "segmentation": []
+            })
+    
+    
+    
+        ##Show Output
+        visualize(output_Aug['image'],output_Aug['bboxes'],output_Aug['category_ids'],Label_2_ClassName)
+    
+    with open(out_Annotation_p, 'w') as outfile:
+        json.dump(Out_Json, outfile)
+        
+               
                 
 
             
