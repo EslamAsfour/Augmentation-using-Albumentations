@@ -2,3 +2,4 @@
 img/
 Test.py
 .vscode
+*.pyc
