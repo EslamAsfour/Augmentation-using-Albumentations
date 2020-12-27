@@ -49,7 +49,8 @@ import json
 '''
  Function takes imgs Directory and Json file and return 
         Dict {
-                "img_Name" : Img_In_RGB,
+                "img_Name" : TargetImg ,
+                "img_RGB" : Img_In_RGB,
                 "bbox": [],
                 "class_labels": []
                 }
@@ -80,6 +81,7 @@ def Get_Prep_Annotation(imgDir,JsonPath):
         # Search with Img_id to get every bbox of the img
      
         Img_Dic = {
+            "img_Name" : TargetImg ,
             "img_RGB" : img_in_RGB,
             "bbox": [],
             "class_labels": []
