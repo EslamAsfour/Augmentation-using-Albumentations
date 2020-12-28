@@ -68,28 +68,29 @@
 
 ## 2) Prepare DS to use Albumentation
 
-- To perfome any Transformations with Albumentation you need to input the transformation function inputs as shown :
-  1- Image in RGB  = (list)[]
-  2- Bounding boxs : (list)[]
-  3- Class labels : (list)[]
-  4- List of all the classes names for each label 
+  - To perfome any Transformations with Albumentation you need to input the transformation function inputs as shown :
+   1- Image in RGB  = (list)[]
+   2- Bounding boxs : (list)[]
+   3- Class labels : (list)[]
+   4- List of all the classes names for each label 
   
   ### Example :
-    - img_RGB : array([[[ 71, 121, 130].....)
-    - bbox : [175, 194, 21.5, 30.5]
-    - class_label : [3] -> 'buoy_red'
-    - Classes_Name = ['Objects','buoy_green','buoy_orange','buoy_red','buoy_yellow','gate_edge']
-## Our Functions 
-#### Function ``` Get_Prep_Annotation(imgDir,JsonPath) ``` return the needed input form as a dic 
-#### Example : 
-```python 
-    Dict {
+     - img_RGB : array([[[ 71, 121, 130].....)
+     - bbox : [175, 194, 21.5, 30.5]
+     - class_label : [3] -> 'buoy_red'
+     - Classes_Name = ['Objects','buoy_green','buoy_orange','buoy_red','buoy_yellow','gate_edge']
+      <br>
+  ## Our Functions 
+  #### Function ``` Get_Prep_Annotation(imgDir,JsonPath) ``` return the needed input form as a dic 
+  #### Example : 
+  ```python 
+        Dict {
                 "img_Name" : TargetImg ,
                 "img_RGB" : Img_In_RGB,
                 "bbox": [],
                 "class_labels": []
                 }
-```
+  ```
 
 
 <br>
