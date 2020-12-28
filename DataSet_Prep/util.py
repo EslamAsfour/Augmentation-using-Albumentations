@@ -67,7 +67,7 @@ def Rename_COCO(imgs_Path , Annotation_Path):
     for img in Annotations['images']:
         original_Name = img['file_name']
         #Change name in annotations
-        img['file_name'] = str(count)
+        img['file_name'] = str(count)+".jpg"
         # Change name in directory
         os.rename(original_Name,str(count)+".jpg")
         
