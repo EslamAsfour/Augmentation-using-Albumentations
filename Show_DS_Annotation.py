@@ -4,8 +4,8 @@ import cv2
 
 
 ## Put ur Paths
-imgDir_Path = "E:\AUV\DataSet Creation\Augmentation\img"
-Annotation_File = "E:\AUV\DataSet Creation\Augmentation\output_2.json"
+imgDir_Path = "E:/AUV/DataSet Creation/Final DS/train"
+Annotation_File = "E:/AUV/DataSet Creation/Final DS/Train_Annotation.json"
 #########################
 # Get Dict with {
 #       img_RGB , bbox , class_labels  
@@ -14,7 +14,7 @@ Annotation_File = "E:\AUV\DataSet Creation\Augmentation\output_2.json"
 Imgs_Prepared_to_Trans = Get_Prep_Annotation(imgDir_Path,Annotation_File)
 #########################
 # Put ur classes names 
-Label_2_ClassName =['','gates','bin','bin_cover','buoy_green','buoy_orange','buoy_red','buoy_yellow','channel','object_dropoff','object_pickup','qual_gate','torpedo_cover','torpedo_hole','torpedo_target']
+Label_2_ClassName =['Objects','buoy_green','buoy_orange','buoy_red','buoy_yellow','gate_edge']
 
 for img in Imgs_Prepared_to_Trans:
     print(img['img_Name'])
