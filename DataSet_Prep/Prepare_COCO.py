@@ -119,7 +119,7 @@ def Aug_IMGs(in_img_P,in_Annotation_P ,in_Label_2_ClassName,tfs,out_Img_P,out_An
     # loop over all the imgs Dict
     for img in Imgs_Prepared_to_Trans:
         # Every img go through every transform
-        Img_Id_Start+= 1
+        
         tf_Count = 1
         for tf in tfs:
             
@@ -130,7 +130,7 @@ def Aug_IMGs(in_img_P,in_Annotation_P ,in_Label_2_ClassName,tfs,out_Img_P,out_An
             new_Name = f"Aug_{tf_Count}_{img['img_Name']}"
             tf_Count += 1
             cv2.imwrite(out_Img_P + new_Name , cv2.cvtColor(output_Aug['image'],cv2.COLOR_RGB2BGR) )
-            
+            Img_Id_Start+= 1
             ## Add Annotation to JSON
             ## Add img to images
             Out_Json['images'].append({
@@ -143,13 +143,15 @@ def Aug_IMGs(in_img_P,in_Annotation_P ,in_Label_2_ClassName,tfs,out_Img_P,out_An
             ## Add Annotation to annotations
             ## Note that we can have multiple Annotations in one img so we need to loop through all f the bboxs and append each one
             for bbox , cat_it in zip(output_Aug['bboxes'],output_Aug['category_ids']):
+                # Convert the numbers to ints
+                bbox = list(map(int, bbox))
                 Annotation_Id_Start += 1
                 Out_Json['annotations'].append({
                     "area": int(bbox[-1]*bbox[-2]),
                     "iscrowd": 0,
                     "image_id": Img_Id_Start,
                     "bbox": bbox,
-                    "category_id": 0,
+                    "category_id": int(cat_it),
                     "id": Annotation_Id_Start,
                     "ignore": 0,
                     "segmentation": []
@@ -158,7 +160,7 @@ def Aug_IMGs(in_img_P,in_Annotation_P ,in_Label_2_ClassName,tfs,out_Img_P,out_An
         
         
             ##Show Output
-            visualize(output_Aug['image'],output_Aug['bboxes'],output_Aug['category_ids'],Label_2_ClassName)
+            #visualize(output_Aug['image'],output_Aug['bboxes'],output_Aug['category_ids'],Label_2_ClassName)
     
     with open(out_Annotation_p, 'w') as outfile:
         json.dump(Out_Json, outfile)

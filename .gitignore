@@ -1,6 +1,5 @@
 *.json
 img/
-Test.py
 .vscode
 *.pyc
 Out_img/
