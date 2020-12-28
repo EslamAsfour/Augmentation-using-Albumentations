@@ -147,7 +147,8 @@ def transform_multiple_images_with_bboxes(tf, m_class_labels, m_bboxes):
 
 
 def transform_multiple_images_multiple_transforms_with_bboxes(tfs, m_class_labels, m_bboxes):
-    os.chdir('C:/Users/Omar Magdy/PycharmProjects/Augmentation_Exp/Images_Exp/')
+    # os.chdir('C:/Users/Omar Magdy/PycharmProjects/Augmentation_Exp/Images_Exp/')
+    os.chdir('D:/My Folders/University/GP/Yolov5/train/images')
     images_files = os.listdir()
 
     convert = lambda text: int(text) if text.isdigit() else text
@@ -177,10 +178,11 @@ def transform_multiple_images_multiple_transforms_with_bboxes(tfs, m_class_label
         transformed_image = cv2.cvtColor(transformed_image, cv2.COLOR_RGB2BGR)
         cv2.imwrite(f"{images_files[index % images_size].split('.')[0]}_aug{floor(index/images_size) + 1}.jpg", transformed_image)
 
-    print(transformed_m_class_labels)
-    print(transformed_m_bboxes)
+    # print(transformed_m_class_labels)
+    # print(transformed_m_bboxes)
 
-    os.chdir('C:/Users/Omar Magdy/PycharmProjects/Augmentation_Exp/Annotations_Exp/')
+    # os.chdir('C:/Users/Omar Magdy/PycharmProjects/Augmentation_Exp/Annotations_Exp/')
+    os.chdir('D:/My Folders/University/GP/Yolov5/train/labels')
     for index in range(len(transformed_images)):
         with open(f"{images_files[index % images_size].split('.')[0]}_aug{floor(index/images_size) + 1}.txt", 'a') as f:
             for i in range(len(transformed_m_class_labels[index])):

@@ -22,7 +22,8 @@ def parse_yolo_file():
 
 
 def parse_yolo_files():
-    os.chdir('C:/Users/Omar Magdy/PycharmProjects/Augmentation_Exp/Annotations_Exp/')
+    # os.chdir('C:/Users/Omar Magdy/PycharmProjects/Augmentation_Exp/Annotations_Exp/')
+    os.chdir('D:/My Folders/University/GP/Yolov5/train/labels')
     files = os.listdir()
     convert = lambda text: int(text) if text.isdigit() else text
     alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
