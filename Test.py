@@ -80,7 +80,7 @@ Classes_Name = ["Gate", "Any"]
 
 #Rename_COCO(in_Path,in_Ann_Path)
 
-Aug_IMGs(in_Path,in_Ann_Path,Classes_Name,transforms,in_Path,out_Annotation_p)
+Aug_IMGs(in_Path, in_Ann_Path, Classes_Name, transforms, Out_Path, out_Annotation_p)
     
         
         
